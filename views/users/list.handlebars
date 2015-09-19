@@ -1,0 +1,27 @@
+<h1>用户列表</h1>
+
+<table style="border:solid 1px #ff0000; width:300px; height:200px ">
+	<tr>
+		<th>ID</th>
+		<th>账号</th>
+	</tr>
+{{#if users}}
+
+	{{#each users}}
+		<tr>
+			<td>
+				{{_id}}
+			</td>
+			<td>
+				{{name}}
+			</td>
+		</tr>
+	{{/each}}
+
+{{else}}
+	<tr>
+		<td colspan=2 style="text-align=center" >没有数据</td>
+	</tr>
+
+{{/if}}
+</table>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	    <title>nodejs-demo</title>
+
+		<!--定义段落-->
+		{{{_sections.head}}}
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<link rel="stylesheet" href="{{static '/vendor/bootstrap/css/bootstrap.min.css'}}">
+        <style>
+            body {
+                padding-top: 50px;
+                padding-bottom: 20px;
+            }
+        </style>
+		<link rel="stylesheet" href="{{static '/vendor/bootstrap/css/bootstrap-theme.min.css'}}">
+
+		<script src="{{static '/vendor/js/modernizr-2.6.2-respond-1.1.0.min.js'}}"></script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+		<header>
+			<p>
+			{{#unless user}}
+				<a href="/" target="_top" >亲，请登录</a>
+			{{else}}
+				{{user.name}} 
+				<form action='/logout' method="post">
+					<input type="submit" value="登出" />
+				</form>
+				<a href="/logout" target="_top" >退出系统</a>
+			{{/unless}}
+			|<a href="/signup" target="_top" >免费注册</a>
+			|<a href="/user/list" target="" > 用户列表</a></p>
+		</header>
+
+	    <div class="container">
+	    
+	    	{{! 有消息可以直接显示 }}
+			{{#if flash}}
+				<div class="alert alert-dismissible alert-{{flash.type}}">
+					<button type="button" class="close" 
+						data-dismiss="alert" aria-hidden="true">&times;</button>
+					<strong>{{flash.intro}}</strong> {{{flash.message}}}
+				</div>
+			{{/if}}
+
+			<hr style="border:0;background-color:#ff0000;height:1px;">
+
+		    {{{body}}}
+
+			<hr style="border:0;background-color:#ff0000;height:1px;">
+			<footer>
+				<p>&copy; 版权为我所有！</p>
+			</footer>
+	    </div> <!-- /container -->        
+
+        <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+		<script>window.jQuery || document.write('<script src="{{static '/vendor/js/jquery-2.1.1.min.js'}}"><\/script>')</script>
+		<script>
+			var IMG_CART_EMPTY = '{{static '/img/shop/cart_empty.png'}}';
+			var IMG_CART_FULL = '{{static '/img/shop/cart_full.png'}}';
+
+			// simple client-side cart implementation (mostly mocked for now)
+			var cart = (function() {
+				// normally we would get this from an AJAX call, or some similar method
+				var items = Array({{cartItems}});
+				return {
+					items: items,
+					isEmpty: function() {
+						return !items.length;
+					},
+					addItem: function(id) {
+						items.push(id);
+						$(document).trigger('meadowlark_cart_changed');
+					}
+				};
+			})();
+
+			// change cart icon when the cart has changed
+			$(document).on('meadowlark_cart_changed', function(){
+				$('header img.cartIcon').attr('src', cart.isEmpty() ?
+				IMG_CART_EMPTY : IMG_CART_FULL );
+			});
+		</script>
+		<!--定义段落-->
+    	{{{_sections.jquery}}}
+
+		<script src="{{static '/vendor/bootstrap/js/bootstrap.min.js'}}"></script>
+		<script src="{{static '/js/main.js'}}"></script>
+    </body>
+</html>
